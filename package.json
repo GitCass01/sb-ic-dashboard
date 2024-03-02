@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "echarts": "^5.5.0",
+    "regression": "^2.0.1"
+  }
+}
