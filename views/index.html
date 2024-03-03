@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Smart Bear Intrinsic Capacity Dashboard</title>
+</head>
+<body>
+    <div id="main" class="container-fluid text-center">
+        <h1> Dashboard for visualizing Smart Bear Intrinsic Capacity Data </h1>
+        <p>In this page you can filter over a list of patients and visualize their data, from the Intrinsic Capacity to the single variable</p>
+    
+        <div class="row">
+            <div class="col-md-12" style="height: 100px;">
+                Here you can select the patient you want to see and filter by IC coverage %:
+                <input type="number" id="minCoverage" name="inputValue" value="80" min="0" max="100">
+
+                <div class="border" id="patient-list"></div>
+            </div>
+        </div>
+
+        <div class="row border">
+            <div class="col-lg-6 text-center border">
+                <div id="ic-chart" class="line-chart text-center">
+                    Select a patient id to show his IC chart
+                </div>
+            </div>
+            <div class="col-lg-6 text-center border">
+                <div class="text-center border" style="height: 50px;">
+                    <h2 id="ic-coverage">IC coverage: %</h2>
+                </div>
+                <div id="coverage-pie" class="text-center border" style="width: 100%; height: 400px;">Select a patient id to show his domains coverage</div>
+            </div>
+        </div>
+
+        <div class="row border justify-content-center">
+            <div class="col-lg-8 border">
+                <div id="domain-chart" class="line-chart text-center">
+                    Choose a domain to show his chart
+                </div>
+            </div>
+            <div class="col-2 border text-center">
+                <div id="domain-list">
+                    <div id="Locomotion" class="domainItem" onclick="selectDomain(this)">Locomotion</div>
+                    <div id="Sensory" class="domainItem" onclick="selectDomain(this)">Sensory</div>
+                    <div id="Psychological" class="domainItem" onclick="selectDomain(this)">Psychological</div>
+                    <div id="Cognition" class="domainItem" onclick="selectDomain(this)">Cognition</div>
+                    <div id="Vitality" class="domainItem" onclick="selectDomain(this)">Vitality</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row border">
+            <div class="col justify-content-center text-center">
+                Select a variable to show it's chart
+                <div class="border" id="variable-list"></div>
+            </div>
+        </div>
+
+        <div class="row border">
+            <div class="col-lg-6 text-center border">
+                <div id="variable-chart" class="line-chart text-center">
+                    Select a variable to show it's chart
+                </div>
+            </div>
+            <div class="col-lg-6 text-center border">
+                <div id="variable-imputation-chart" class="text-center border" style="width: 100%; height: 450px;">
+                    Select a domain to show it's variables imputation
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/regression/2.0.1/regression.min.js" integrity="sha512-0k6FXllQktdobw8Nc8KQN2WtZrOuxpMn7jC2RKCF6LR7EdOhhrg3H5cBPxhs3CFzQVlO6ni1B9SDLUPhBs0Alg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>

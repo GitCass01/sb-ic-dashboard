@@ -1,5 +1,3 @@
-import dataset from './../datasets/dataset.json' assert { type: 'json' };
-
 var locomotion_list = ['Number of steps', 'Frail Score', 'Sarcopenia Score', 'Walked distance']
 var sensory_list = ['Sensory_conditions_ps']
 var psychological_list = ['Sleep Duration', 'Light Sleep Duration', 'Deep Sleep Duration', 'PHQ9 Score', 'GDS Score', 'Psychological_conditions_ps']

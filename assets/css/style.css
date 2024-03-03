@@ -4,15 +4,34 @@
     overflow-x: auto;
 }
 
+#domain-list {
+    height: 450px;
+    overflow-y: auto;
+}
+
+.domainItem {
+    padding: 10px;
+    margin: 35px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
 .idItem {
     display: inline-block;
     padding: 10px;
     margin: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 .selected {
     background-color: #3498db;
     color: #fff;
+}
+
+.line-chart {
+    width: 100%;
+    height:450px;
 }

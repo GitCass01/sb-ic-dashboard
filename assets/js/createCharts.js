@@ -1,11 +1,4 @@
-import { filterData, getData, getDates, computeTrend, getDates2, getDomainCoverage } from './utility.js';
-
-import { locomotion_list, sensory_list, psychological_list, cognition_list, vitality_list, locomotion_list_ps, sensory_list_ps, 
-    psychological_list_ps, cognition_list_ps, vitality_list_ps, locomotion_list_imputed, sensory_list_imputed, 
-    psychological_list_imputed, cognition_list_imputed, vitality_list_imputed, domains, domains_coverage, domains_imputed }
-    from './data_lists.js'; 
-
-function linePlotDomain(idDiv, patientData, domain) {
+function linePlotDomain(idDiv, data, dates, trend, domain) {
     var data = getData(patientData, 'Intrinsic Capacity')
     var dates = getDates(patientData)
     //var trend = computeTrend(getDates2(patientData), data)
