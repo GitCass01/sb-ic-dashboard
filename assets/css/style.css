@@ -1,0 +1,18 @@
+#patient-list {
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.idItem {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #3498db;
+    color: #fff;
+}

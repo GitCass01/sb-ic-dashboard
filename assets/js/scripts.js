@@ -8,7 +8,23 @@ import { filterData, getData, getDates, computeTrend, getDates2, getDomainCovera
 
 import { linePlotDomain, pieChartCoverages } from './createCharts.js';
 
-var patientData = filterData(dataset, 'Patient_id', '1065442966')
+var patientId = '1065442966';
+
+/*function selectId(element) {
+    console.log(element)
+    // Deseleziona il vecchio ID
+    if (patientId !== null) {
+        patientId.classList.remove('selected');
+    }
+
+    // Seleziona il nuovo ID
+    element.classList.add('selected');
+    patientId = element;
+}
+
+document.getElementById('1065442966').addEventListener('click', selectId);*/
+
+var patientData = filterData(dataset, 'Patient_id', patientId)
 var coverages = []
 getDomainCoverage(patientData, domains).map((e, index) => {
     var tmp = {}
