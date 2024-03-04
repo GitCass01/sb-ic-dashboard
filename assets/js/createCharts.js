@@ -6,67 +6,67 @@ function linePlot(idDiv, data, dates, titleName, trend=null) {
   // Specify the configuration items and data for the chart
   var option = {
       title: {
-      text: titleName
+        text: titleName
       },
       tooltip: {
-      trigger: 'axis'
+        trigger: 'axis'
       },
       xAxis: {
-      type: 'category',
-      data: dates
+        type: 'category',
+        data: dates
       },
       yAxis: {
-      name: 'performance score',
-      //nameLocation:'middle',
-      type: 'value'
+        name: 'performance score',
+        //nameLocation:'middle',
+        type: 'value'
       },
       legend:{
-      data: ['Performance score', 'Trend line']
+        data: ['Performance score', 'Trend line']
       },
       series: [
       {
-          name: 'Performance score',
-          data: data,
-          type: 'line',
-          //smooth: true,
-          showAllSymbol:true
+        name: 'Performance score',
+        data: data,
+        type: 'line',
+        //smooth: true,
+        showAllSymbol:true
       },
       {
-          name: 'Trend line',
-          data: trend,
-          type:'line',
-          showSymbol:false,
-          lineStyle: {
+        name: 'Trend line',
+        data: trend,
+        type:'line',
+        showSymbol:false,
+        lineStyle: {
           type: 'dashed'
-          }
+        }
       }
       ],
       dataZoom: [
       {
-          type: 'slider',
-          xAxisIndex: [0],
-          start: 0,
-          end: 100
+        type: 'slider',
+        xAxisIndex: [0],
+        start: 0,
+        end: 100
       },
       {
-          type: 'inside',
-          xAxisIndex: [0],
-          start: 0,
-          end: 100
+        type: 'inside',
+        xAxisIndex: [0],
+        start: 0,
+        end: 100
       },
       {
-          type: 'slider',
-          yAxisIndex: [0],
-          start: 0,
-          end: 100,
-          zoomOnMouseWheel: false
+        type: 'slider',
+        yAxisIndex: [0],
+        start: 0,
+        end: 100,
+        zoomOnMouseWheel: false
       },
       {
-          type: 'inside',
-          yAxisIndex: [0],
-          start: 0,
-          end: 100,
-          zoomOnMouseWheel: false
+        type: 'inside',
+        yAxisIndex: [0],
+        start: 0,
+        end: 100,
+        zoomOnMouseWheel: false
       }
       ]
   };
