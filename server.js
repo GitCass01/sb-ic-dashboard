@@ -46,18 +46,11 @@ app.post('/setId', async function (req, res) {
     res.send({ code: 'Success' });
 })
 
-app.get('/icChart', async function (req, res) {
-    var response = {}
-    response['data'] = utility.getData(patientData, 'Intrinsic Capacity')
-    response['dates'] = utility.getDates(patientData)
-    res.send(response)
-})
-
 app.post('/domainChart', async function (req, res) {
     var response = {}
     response['data'] = utility.getData(patientData, req.body.domain)
     response['dates'] = utility.getDates(patientData)
-    // response['trend'] = ...
+    response['trend'] = utility.computeTrend(patientData, req.body.domain)
     res.send(response)
 })
 

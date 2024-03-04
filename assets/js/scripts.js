@@ -1,9 +1,15 @@
+import {linePlot, pieChartCoverages, barChart} from './createCharts.js'
+
+
 var patientId = null;
 var domain = null;
 var variable = null;
 
+console.log(patientId)
+
 var minCoverageInput = document.getElementById("minCoverage");
-getAllPatientId(minCoverageInput.value)
+createPatientList(minCoverageInput.value)
+createDomainList()
 
 minCoverageInput.addEventListener("keydown", function (e) {
     if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
@@ -11,7 +17,7 @@ minCoverageInput.addEventListener("keydown", function (e) {
     }
 });
 
-async function getAllPatientId(minCoverage) {
+async function createPatientList(minCoverage) {
     await fetch('getAllId', {
         method: 'POST',
         headers: {
@@ -21,7 +27,15 @@ async function getAllPatientId(minCoverage) {
     })
     .then(response => response.json())
     .then(result => {
-        createPatientList(result.value)
+        var patientListContainer = document.getElementById('patient-list')
+        result.value.forEach(id => {
+            const idItem = document.createElement('div');
+            idItem.classList.add('idItem');
+            idItem.id = id;
+            idItem.textContent = id;
+            idItem.onclick = () => selectId(idItem);
+            patientListContainer.appendChild(idItem);
+        });
     })
 }
 
@@ -49,7 +63,7 @@ async function selectId(element) {
         .then(response => response.json())
         .then(result => {
             if (result.code === 'Success') {
-                generateCharts();
+                icChartCoverageChart();
                 if (domain !== null) {
                     generateDomainChart()
                 }
@@ -62,27 +76,38 @@ async function selectId(element) {
     if (domain !== null) {
         generateVariableImputationChart()
     }
+    if (variable !== null) {
+        generateVariableChart()
+    }
 }
 
-async function createPatientList(idList) {
-    var patientListContainer = document.getElementById('patient-list')
-    idList.forEach(id => {
-        const idItem = document.createElement('div');
-        idItem.classList.add('idItem');
-        idItem.id = id;
-        idItem.textContent = id;
-        idItem.onclick = () => selectId(idItem);
-        patientListContainer.appendChild(idItem);
+async function createDomainList() {
+    var domainList = ['Locomotion', 'Sensory', 'Psychological', 'Cognition', 'Vitality']
+    var domainListContainer = document.getElementById('domain-list')
+    domainList.forEach(id => {
+        const domainItem = document.createElement('div');
+        domainItem.classList.add('domainItem');
+        domainItem.id = id;
+        domainItem.textContent = id;
+        domainItem.onclick = () => selectDomain(domainItem);
+        domainListContainer.appendChild(domainItem);
     });
 }
 
-async function generateCharts() {
-    await fetch('/icChart', {
-        method: 'GET'
+async function icChartCoverageChart() {
+    var domainValue = {
+        domain: 'Intrinsic Capacity'
+    }
+    await fetch('/domainChart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(domainValue)
     })
         .then(response => response.json())
         .then(result => {
-            linePlot('ic-chart', result.data, result.dates, 'Intrinsic Capacity')
+            linePlot('ic-chart', result.data, result.dates, 'Intrinsic Capacity', result.trend)
         })
         .catch(err => console.log("err: ", err));
     
@@ -92,7 +117,7 @@ async function generateCharts() {
     })
         .then(response => response.json())
         .then(result => {
-            coverages = result
+            var coverages = result
             document.getElementById('ic-coverage').innerHTML = 'IC coverage: ' + coverages[5]['value'] + '%';
             coverages.pop()
             pieChartCoverages('coverage-pie', coverages)
@@ -109,10 +134,16 @@ async function selectDomain(element) {
 
     // Seleziona il nuovo ID
     element.classList.add('selected');
-    domain = element;    
+    domain = element;
 
     await generateDomainChart();
 
+    generateVariableList()
+
+    generateVariableImputationChart()
+}
+
+async function generateVariableList(variableList) {
     const domainValue = {
         domain: domain.id
     }
@@ -126,26 +157,18 @@ async function selectDomain(element) {
     })
     .then(response => response.json())
     .then(result => {
-        generateVariableList(result.value)
+        var variableListContainer = document.getElementById('variable-list')
+        variableListContainer.innerHTML = '';
+        result.value.forEach(variable => {
+            const variableItem = document.createElement('div');
+            variableItem.classList.add('idItem');
+            variableItem.id = variable;
+            variableItem.textContent = variable;
+            variableItem.onclick = () => selectVariable(variableItem);
+            variableListContainer.appendChild(variableItem);
+        });
     })
     .catch(err => console.log("err: ", err));
-
-    generateVariableImputationChart()
-}
-
-async function generateVariableList(variableList) {
-    var variableListContainer = document.getElementById('variable-list')
-
-    variableListContainer.innerHTML = '';
-
-    variableList.forEach(variable => {
-        const variableItem = document.createElement('div');
-        variableItem.classList.add('idItem');
-        variableItem.id = variable;
-        variableItem.textContent = variable;
-        variableItem.onclick = () => selectVariable(variableItem);
-        variableListContainer.appendChild(variableItem);
-    });
 }
 
 async function selectVariable(element) {
@@ -158,10 +181,16 @@ async function selectVariable(element) {
     element.classList.add('selected');
     variable = element;
 
+    generateVariableChart()
+
+    generateVariableImputationChart()
+}
+
+async function generateVariableChart() {
     const variableValue = {
         variable: variable.id
     }
-
+    
     await fetch('/variableChart', {
         method: 'POST',
         headers: {
@@ -174,8 +203,6 @@ async function selectVariable(element) {
         linePlot('variable-chart', result.data, result.dates, variable.id)
     })
     .catch(err => console.log("err: ", err));
-
-    generateVariableImputationChart()
 }
 
 async function generateVariableImputationChart() {
@@ -212,159 +239,7 @@ async function generateDomainChart() {
     })
     .then(response => response.json())
     .then(result => {
-        linePlot('domain-chart', result.data, result.dates, domain.id)
+        linePlot('domain-chart', result.data, result.dates, domain.id, result.trend)
     })
     .catch(err => console.log("err: ", err));
-}
-
-function linePlot(idDiv, data, dates, titleName, trend=null) {
-    var icChart = echarts.init(document.getElementById(idDiv));
-    //myChart.showLoading();
-    //myChart.hideLoading();    
-
-    // Specify the configuration items and data for the chart
-    var option = {
-        title: {
-        text: titleName
-        },
-        tooltip: {
-        trigger: 'axis'
-        },
-        xAxis: {
-        type: 'category',
-        data: dates
-        },
-        yAxis: {
-        name: 'performance score',
-        //nameLocation:'middle',
-        type: 'value'
-        },
-        legend:{
-        data: ['Performance score', 'Trend line']
-        },
-        series: [
-        {
-            name: 'Performance score',
-            data: data,
-            type: 'line',
-            showAllSymbol:true
-        },
-        {
-            name: 'Trend line',
-            data: trend,
-            type:'line',
-            showSymbol:false,
-            lineStyle: {
-            type: 'dashed'
-            }
-        }
-        ],
-        dataZoom: [
-        {
-            type: 'slider',
-            xAxisIndex: [0],
-            start: 0,
-            end: 50
-        },
-        {
-            type: 'inside',
-            xAxisIndex: [0],
-            start: 0,
-            end: 50
-        },
-        {
-            type: 'slider',
-            yAxisIndex: [0],
-            start: 60,
-            end: 100,
-            zoomOnMouseWheel: false
-        },
-        {
-            type: 'inside',
-            yAxisIndex: [0],
-            start: 60,
-            end: 100,
-            zoomOnMouseWheel: false
-        }
-        ]
-    };
-
-    // Display the chart using the configuration items and data just specified.
-    icChart.setOption(option);
-}
-
-function pieChartCoverages(idDiv, coverages) {
-    var chart = echarts.init(document.getElementById(idDiv));
-    
-    var option = {
-        title: {
-          text: 'Coverages for each domain',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left'
-        },
-        series: [
-          {
-            name: 'Domains Coverages',
-            type: 'pie',
-            radius: '50%',
-            data: coverages,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      };
-      chart.setOption(option);
-}
-
-function barChart(idDiv, data, variables, titleName) {
-    var chart = echarts.init(document.getElementById(idDiv));
-    var option = {
-        title: {
-            text: titleName,
-            left: 'center'
-        },
-        tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
-        },
-        xAxis: {
-          type: 'category',
-          data: variables,
-          axisLabel: {
-            interval: 0,
-            rotate: 30
-          }
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: data,
-            type: 'bar',
-            showBackground: true,
-            backgroundStyle: {
-              color: 'rgba(180, 180, 180, 0.2)'
-            },
-            label: {
-              show: true,
-              position: 'inside'
-            },
-          }
-        ]
-    };
-    chart.setOption(option);
 }

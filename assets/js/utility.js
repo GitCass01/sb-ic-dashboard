@@ -1,3 +1,5 @@
+const ecStat = require('echarts-stat')
+
 module.exports = {
     getAllId: function(df, minCoverage) {
         df = df.filter(row => row['Intrinsic Capacity_coverage'] >= minCoverage)
@@ -44,41 +46,14 @@ module.exports = {
         return result
     },
     
-    calculatePolynomialValue: function (x, coefficients) {
-        var result = 0;
-        for (var i = 0; i < coefficients.length; i++) {
-            result += coefficients[i] * Math.pow(x, i);
-            console.log(x, i, coefficients[i], result);
+    computeTrend: function(df, domain) {
+        var dates = this.getData(df, 'effectiveDateTime')
+        var data_domain = this.getData(df, domain)
+        var data = []
+        for (let i=0; i < dates.length; i++) {
+            data.push([dates[i], data_domain[i]])
         }
-        return result;
+        var points = ecStat.regression('polynomial', data, 1).points
+        return points.map(e => e[1])
     },
-    
-    computeTrend: function (x, y) {
-        /*x = x.map(point => point.getTime());
-        var data = {
-            x: x,
-            y: y
-        }*/
-        
-        // Combina le date con i valori per ottenere coppie (x, y)
-        var data = x.map((x, index) => [index + 1, y[index]]);
-        console.log(data)    
-        /*var result = regression.polynomial(Object.values(data), {order: 3});
-        var coefficients = result.equation;
-        console.log(result.equation)
-        var trendLine = y.map( point => {
-            return coefficients.reduce((sum, coefficient, index) => sum + coefficient * Math.pow(point, index), 0);
-        });
-        console.log(trendLine)*/
-        console.log(data)
-        var result = regression.polynomial(Object.values(data), {order: 1});
-        var coefficients = result.equation;
-        console.log(coefficients)
-        for (var i = 0; i < data.length; i++) {
-            var x = data[i][0];
-            var polynomialValue = calculatePolynomialValue(x, coefficients);
-        }
-    
-        return trendLine;
-    }
 }
