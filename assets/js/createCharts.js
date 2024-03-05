@@ -151,4 +151,84 @@ function barChart(idDiv, data, variables, titleName) {
   chart.setOption(option);
 }
 
-export {linePlot, pieChartCoverages, barChart};
+function treeChart(idDiv, data, titleName) {
+  var chart = echarts.init(document.getElementById(idDiv));
+
+  var option = {
+    title: {
+      text: titleName,
+      left: 'left'
+    },
+    tooltip: {
+      trigger: 'item',
+      triggerOn: 'mousemove'
+    },
+    series: [{
+      type: 'tree',
+      data: [data],
+      top: '1%',
+      left: '10%',
+      bottom: '1%',
+      right: '15%',
+      symbolSize: 7,
+      label: {
+        position: 'left',
+        verticalAlign: 'middle',
+        align: 'right',
+        fontSize: 9
+      },
+      leaves: {
+        label: {
+          position: 'right',
+          verticalAlign: 'middle',
+          align: 'left'
+        }
+      },
+      emphasis: {
+        focus: 'descendant'
+      },
+      expandAndCollapse: true,
+      animationDuration: 550,
+      animationDurationUpdate: 750
+    }]
+  }
+
+  chart.setOption(option);
+}
+
+function sankeyChart(idDiv, data, links, titleName) {
+  var chart = echarts.init(document.getElementById(idDiv));
+
+  var option = {
+    title: {
+      text: titleName,
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item',
+      triggerOn: 'mousemove'
+    },
+    series: {
+      type: 'sankey',
+      layout: 'none',
+      data: data,
+      links: links,
+      right: '26%',
+      top: '7%',
+      nodeGap: 15,
+      nodeWidth: 12,
+      lineStyle: {
+        color: 'source',
+        curveness: 0.7,
+        opacity: 0.3
+      },
+      itemStyle: {
+        opacity: 0.8
+      }
+    }
+  };
+
+  chart.setOption(option);
+}
+
+export {linePlot, pieChartCoverages, barChart, treeChart, sankeyChart};

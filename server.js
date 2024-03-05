@@ -84,4 +84,17 @@ app.post('/variableImputation', async function (req, res) {
     res.send(response)
 })
 
+app.get('/treeChart', async function (req, res) {
+    res.send({data: utility.generateTree()})
+})
+
+app.get('/sankeyChart', async function (req, res) {
+    var data = []
+    dataLists.domains.forEach(element => {
+        data.push({'name': element})
+    });
+
+    res.send({data: data, links: utility.getSankeyLinks(patientData)})
+})
+
 app.listen(port);

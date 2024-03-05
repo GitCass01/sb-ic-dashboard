@@ -1,4 +1,4 @@
-import {linePlot, pieChartCoverages, barChart} from './createCharts.js'
+import {linePlot, pieChartCoverages, barChart, treeChart, sankeyChart} from './createCharts.js'
 
 
 var patientId = null;
@@ -8,8 +8,9 @@ var variable = null;
 console.log(patientId)
 
 var minCoverageInput = document.getElementById("minCoverage");
-createPatientList(minCoverageInput.value)
-createDomainList()
+createPatientList(minCoverageInput.value);
+createDomainList();
+createTreeChart();
 
 minCoverageInput.addEventListener("keydown", function (e) {
     if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
@@ -79,6 +80,8 @@ async function selectId(element) {
     if (variable !== null) {
         generateVariableChart()
     }
+
+    createSankeyChart();
 }
 
 async function createDomainList() {
@@ -224,7 +227,6 @@ async function generateVariableImputationChart() {
     .catch(err => console.log("err: ", err));
 }
 
-// CREATION OF CHARTS
 async function generateDomainChart() {
     const domainValue = {
         domain: domain.id
@@ -240,6 +242,28 @@ async function generateDomainChart() {
     .then(response => response.json())
     .then(result => {
         linePlot('domain-chart', result.data, result.dates, domain.id, result.trend)
+    })
+    .catch(err => console.log("err: ", err));
+}
+
+async function createTreeChart() {
+    await fetch('/treeChart', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(result => {
+        treeChart('tree-chart', result.data, 'IC composition')
+    })
+    .catch(err => console.log("err: ", err));
+}
+
+async function createSankeyChart() {
+    await fetch('/sankeyChart', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(result => {
+        sankeyChart('sankey-chart', result.data, result.links, 'Domains contribution')
     })
     .catch(err => console.log("err: ", err));
 }

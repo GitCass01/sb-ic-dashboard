@@ -25,5 +25,8 @@ module.exports = {
     'domains': ['Locomotion', 'Sensory', 'Psychological', 'Cognition', 'Vitality', 'Intrinsic Capacity'],
     
     'domains_coverage': ['Locomotion_coverage', 'Sensory_coverage', 'Psychological_coverage', 'Cognition_coverage', 'Vitality_coverage', 'Intrinsic Capacity_coverage'],
-    'domains_imputed': ['Locomotion_imputed', 'Sensory_imputed', 'Psychological_imputed', 'Cognition_imputed', 'Vitality_imputed', 'Intrinsic Capacity_imputed']
+    'domains_imputed': ['Locomotion_imputed', 'Sensory_imputed', 'Psychological_imputed', 'Cognition_imputed', 'Vitality_imputed', 'Intrinsic Capacity_imputed'],
+
+    'count_domains': {'Locomotion': 4, 'Sensory': 1, 'Psychological': 6,
+                    'Cognition': 3, 'Vitality': 12},
 }

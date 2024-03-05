@@ -1,4 +1,5 @@
 const ecStat = require('echarts-stat')
+const dataLists = require('./dataLists.js')
 
 module.exports = {
     getAllId: function(df, minCoverage) {
@@ -32,9 +33,22 @@ module.exports = {
     
     getDomainCoverage: function (df, domains) {
         var coverages = []
-        domains.forEach(e => {
-            coverages.push(Math.round((df[0][e+'_coverage'] + Number.EPSILON) * 100) / 100)
+        var domain_count = this.countNonValues(df)
+        var tot_var_personalized = 0
+        var tot_var = 0
+
+        domains.slice(0, 5).forEach(e => {
+            coverages.push(Math.round(((domain_count[e]/dataLists.count_domains[e] * 100) + Number.EPSILON) * 100) / 100)
         });
+        
+        for (const e in domain_count) {
+            tot_var_personalized += domain_count[e]
+        }
+        for (const e in dataLists.count_domains) {
+            tot_var += dataLists.count_domains[e]
+        }
+        coverages.push(Math.round(((tot_var_personalized/tot_var * 100) + Number.EPSILON) * 100) / 100)
+
         return coverages
     },
 
@@ -56,4 +70,170 @@ module.exports = {
         var points = ecStat.regression('polynomial', data, 1).points
         return points.map(e => e[1])
     },
+
+    generateTree: function() {
+        var tree = {
+            'name': 'Intrinsic Capacity',
+            'children': []
+        }
+
+        var children = {
+            'name': 'Locomotion',
+        }
+        var variables = []
+        dataLists.locomotion_list.forEach(element => {
+            if (element.includes('conditions')) {
+                element = element.split('_')[0] + ' conditions'
+            }
+
+            variables.push(
+                {
+                    'name': element,
+                    'value': element
+                }
+            )
+        });
+        children['children'] = variables
+        tree['children'].push(children)
+
+        var children = {
+            'name': 'Sensory',
+        }
+        var variables = []
+        dataLists.sensory_list.forEach(element => {
+            if (element.includes('conditions')) {
+                element = element.split('_')[0] + ' conditions'
+            }
+
+            variables.push(
+                {
+                    'name': element,
+                    'value': element
+                }
+            )
+        });
+        children['children'] = variables
+        tree['children'].push(children)
+
+        var children = {
+            'name': 'Psychological',
+        }
+        var variables = []
+        dataLists.psychological_list.forEach(element => {
+            if (element.includes('conditions')) {
+                element = element.split('_')[0] + ' conditions'
+            }
+
+            variables.push(
+                {
+                    'name': element,
+                    'value': element
+                }
+            )
+        });
+        children['children'] = variables
+        tree['children'].push(children)
+
+        var children = {
+            'name': 'Cognition',
+        }
+        var variables = []
+        dataLists.cognition_list.forEach(element => {
+            if (element.includes('conditions')) {
+                element = element.split('_')[0] + ' conditions'
+            }
+
+            variables.push(
+                {
+                    'name': element,
+                    'value': element
+                }
+            )
+        });
+        children['children'] = variables
+        tree['children'].push(children)
+
+        var children = {
+            'name': 'Vitality',
+        }
+        var variables = []
+        dataLists.vitality_list.forEach(element => {
+            if (element.includes('conditions')) {
+                element = element.split('_')[0] + ' conditions'
+            }
+
+            variables.push(
+                {
+                    'name': element,
+                    'value': element
+                }
+            )
+        });
+        children['children'] = variables
+        tree['children'].push(children)
+
+        return tree;
+    },
+
+    getSankeyLinks: function(df) {
+        var links = []
+        var values = this.countNonValues(df)
+
+        dataLists.domains.slice(0, dataLists.domains.length-1).forEach(element => {
+            var link = {
+                'source': element,
+                'target': 'Intrinsic Capacity',
+                'value': values[element]
+            }
+            links.push(link)
+        })
+
+        return links;
+    },
+
+    countNonValues: function(df) {
+        var link_values = {}
+
+        var count = dataLists.locomotion_list.length;
+        dataLists.locomotion_list.forEach(element => {
+            if (df[0][element] == null) {
+                count--
+            }
+        });
+        link_values['Locomotion'] = count;
+
+        var count = dataLists.sensory_list.length;
+        dataLists.sensory_list.forEach(element => {
+            if (df[0][element] == null) {
+                count--
+            }
+        });
+        link_values['Sensory'] = count;
+
+        var count = dataLists.psychological_list.length;
+        dataLists.psychological_list.forEach(element => {
+            if (df[0][element] == null) {
+                count--
+            }
+        });
+        link_values['Psychological'] = count;
+
+        var count = dataLists.cognition_list.length;
+        dataLists.cognition_list.forEach(element => {
+            if (df[0][element] == null) {
+                count--
+            }
+        });
+        link_values['Cognition'] = count;
+
+        var count = dataLists.vitality_list.length;
+        dataLists.vitality_list.forEach(element => {
+            if (df[0][element] == null) {
+                count--
+            }
+        });
+        link_values['Vitality'] = count;
+
+        return link_values;
+    }
 }
