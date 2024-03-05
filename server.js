@@ -97,4 +97,8 @@ app.get('/sankeyChart', async function (req, res) {
     res.send({data: data, links: utility.getSankeyLinks(patientData)})
 })
 
+app.post('/variableBoxplot', async function (req, res) {
+    res.send({data: utility.getVariableData(patientData, req.body.variable)})
+})
+
 app.listen(port);

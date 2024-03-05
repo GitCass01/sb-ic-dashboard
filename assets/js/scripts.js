@@ -1,11 +1,9 @@
-import {linePlot, pieChartCoverages, barChart, treeChart, sankeyChart} from './createCharts.js'
+import {linePlot, pieChartCoverages, barChart, treeChart, sankeyChart, boxplot} from './createCharts.js'
 
 
 var patientId = null;
 var domain = null;
 var variable = null;
-
-console.log(patientId)
 
 var minCoverageInput = document.getElementById("minCoverage");
 createPatientList(minCoverageInput.value);
@@ -14,7 +12,7 @@ createTreeChart();
 
 minCoverageInput.addEventListener("keydown", function (e) {
     if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
-        getAllPatientId(e.target.value);
+        createPatientList(e.target.value);
     }
 });
 
@@ -29,9 +27,10 @@ async function createPatientList(minCoverage) {
     .then(response => response.json())
     .then(result => {
         var patientListContainer = document.getElementById('patient-list')
+        patientListContainer.innerHTML = '';
         result.value.forEach(id => {
-            const idItem = document.createElement('div');
-            idItem.classList.add('idItem');
+            const idItem = document.createElement('a');
+            idItem.classList.add('dropdown-item');
             idItem.id = id;
             idItem.textContent = id;
             idItem.onclick = () => selectId(idItem);
@@ -47,7 +46,10 @@ async function selectId(element) {
     }
 
     // Seleziona il nuovo ID
-    element.classList.add('selected');
+    //element.classList.add('selected');
+    element.classList.add('active')
+    element.classList.add('bg-info')
+    element.classList.add('text-dark')
     patientId = element;
 
     const id = {
@@ -164,7 +166,7 @@ async function generateVariableList(variableList) {
         variableListContainer.innerHTML = '';
         result.value.forEach(variable => {
             const variableItem = document.createElement('div');
-            variableItem.classList.add('idItem');
+            variableItem.classList.add('variableItem');
             variableItem.id = variable;
             variableItem.textContent = variable;
             variableItem.onclick = () => selectVariable(variableItem);
@@ -187,6 +189,8 @@ async function selectVariable(element) {
     generateVariableChart()
 
     generateVariableImputationChart()
+
+    generateVariableBoxplot()
 }
 
 async function generateVariableChart() {
@@ -223,6 +227,25 @@ async function generateVariableImputationChart() {
     .then(response => response.json())
     .then(result => {
         barChart('variable-imputation-chart', result.data, result.variables, domain.id+"'s variables imputation [%]")
+    })
+    .catch(err => console.log("err: ", err));
+}
+
+async function generateVariableBoxplot() {
+    const variableValue = {
+        variable: variable.id
+    }
+
+    await fetch('/variableBoxplot', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(variableValue)
+    })
+    .then(response => response.json())
+    .then(result => {
+        boxplot('boxplot-chart', result.data, variable.id + "'s boxplot")
     })
     .catch(err => console.log("err: ", err));
 }

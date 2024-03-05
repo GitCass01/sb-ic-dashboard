@@ -235,5 +235,15 @@ module.exports = {
         link_values['Vitality'] = count;
 
         return link_values;
+    },
+
+    getVariableData: function(df, variable) {
+        /*var data = []
+
+        dataLists['locomotion_list'].forEach(e => {
+            data.push(this.getData(df, e))
+        })*/
+        
+        return this.getData(df, variable);
     }
 }
