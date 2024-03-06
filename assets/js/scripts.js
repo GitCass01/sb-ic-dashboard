@@ -5,6 +5,8 @@ var patientId = null;
 var domain = null;
 var variable = null;
 
+//charts
+
 var minCoverageInput = document.getElementById("minCoverage");
 createPatientList(minCoverageInput.value);
 createDomainList();
@@ -42,7 +44,10 @@ async function createPatientList(minCoverage) {
 async function selectId(element) {
     // Deseleziona il vecchio ID
     if (patientId !== null) {
-        patientId.classList.remove('selected');
+        //patientId.classList.remove('selected');
+        patientId.classList.remove('active')
+        patientId.classList.remove('bg-info')
+        patientId.classList.remove('text-dark')
     }
 
     // Seleziona il nuovo ID
@@ -56,6 +61,8 @@ async function selectId(element) {
         patientId: patientId.id
     }
 
+    await generatePatientInfo(id)
+
     await fetch('/setId', {
             method: 'POST',
             headers: {
@@ -66,7 +73,8 @@ async function selectId(element) {
         .then(response => response.json())
         .then(result => {
             if (result.code === 'Success') {
-                icChartCoverageChart();
+                icChartCoverageChart()
+
                 if (domain !== null) {
                     generateDomainChart()
                 }
@@ -99,6 +107,33 @@ async function createDomainList() {
     });
 }
 
+async function generatePatientInfo(id) {
+    await fetch('/patientInfo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(id)
+    })
+    .then(response => response.json())
+    .then(result => {
+        var patientInfoTrow = document.getElementById('patient-info-trow')
+        patientInfoTrow.innerHTML = '';
+
+        var arr = result.value
+        for (let i = 0; i < arr.length; i++) {
+            var rowItem = document.createElement('td')
+            if (i == 0) {
+                rowItem = document.createElement('th')
+                rowItem.scope = 'row'
+            }
+            rowItem.textContent = arr[i];
+            patientInfoTrow.appendChild(rowItem);
+        }
+    })
+    .catch(err => console.log("err: ", err));
+}
+
 async function icChartCoverageChart() {
     var domainValue = {
         domain: 'Intrinsic Capacity'
@@ -110,11 +145,11 @@ async function icChartCoverageChart() {
         },
         body: JSON.stringify(domainValue)
     })
-        .then(response => response.json())
-        .then(result => {
-            linePlot('ic-chart', result.data, result.dates, 'Intrinsic Capacity', result.trend)
-        })
-        .catch(err => console.log("err: ", err));
+    .then(response => response.json())
+    .then(result => {
+        linePlot('ic-chart', result.data, result.dates, 'Intrinsic Capacity', result.trend)
+    })
+    .catch(err => console.log("err: ", err));
     
 
     await fetch('/coverages', {

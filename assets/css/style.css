@@ -10,6 +10,10 @@
     max-width: 155px;
 }
 
+#patient-list-container {
+    margin-top: 10px;
+}
+
 #patient-list {
     /* Scrollbar styles */
     &::-webkit-scrollbar {

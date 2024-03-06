@@ -46,6 +46,10 @@ app.post('/setId', async function (req, res) {
     res.send({ code: 'Success' });
 })
 
+app.post('/patientInfo', async function (req, res) {
+    res.send({value: utility.getPatientInfo(req.body.patientId)})
+})
+
 app.post('/domainChart', async function (req, res) {
     var response = {}
     response['data'] = utility.getData(patientData, req.body.domain)

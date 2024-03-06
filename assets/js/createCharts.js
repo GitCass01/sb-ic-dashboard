@@ -1,7 +1,7 @@
 function linePlot(idDiv, data, dates, titleName, trend=null) {
   var icChart = echarts.init(document.getElementById(idDiv));
   //myChart.showLoading();
-  //myChart.hideLoading();    
+  //myChart.hideLoading();
 
   // Specify the configuration items and data for the chart
   var option = {

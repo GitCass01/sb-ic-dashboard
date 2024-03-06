@@ -1,5 +1,6 @@
 const ecStat = require('echarts-stat')
 const dataLists = require('./dataLists.js')
+const patientInfo = require('../datasets/patient_info.json')
 
 module.exports = {
     getAllId: function(df, minCoverage) {
@@ -29,6 +30,23 @@ module.exports = {
         return df.map(function(row) {
             return new Date(row['effectiveDateTime'])
         })
+    },
+
+    getPatientInfo: function (patientId) {
+        var info = []
+
+        df = this.filterData(patientInfo, 'Patient_id', patientId)
+        df.map(function(row) {
+            for (col in row) {
+                if (row[col] == null) {
+                    info.push('/')
+                } else {
+                    info.push(row[col])
+                }
+            }
+        })
+
+        return info;
     },
     
     getDomainCoverage: function (df, domains) {

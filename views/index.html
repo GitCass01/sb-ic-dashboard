@@ -15,12 +15,12 @@
         <p>In this page you can filter over a list of patients and visualize their data, from the Intrinsic Capacity to the single variable</p>
     
         <div class="row">
-            <div class="col-md-12" style="height: 100px;">
+            <div class="col-md-4" style="height: 100px;">
                 Select a patient or filter by IC coverage %:
                 <input type="number" id="minCoverage" name="inputValue" value="80" min="0" max="100">
 
                 <!--<div class="border rounded" id="patient-list"></div>-->
-                <div class="dropdown">
+                <div id="patient-list-container" class="dropdown">
                     <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Select a patient
                     </button>
@@ -28,6 +28,35 @@
                       <!--<a class="dropdown-item" href="#">test</a>-->
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-8 table-responsive">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Patient id</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Educational Status</th>
+                        <th scope="col">Household</th>
+                        <th scope="col">Smoker</th>
+                        <th scope="col">BMI</th>
+                        <th scope="col">Alcohol Intake</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="patient-info-trow">
+                        <!--<th scope="row">/</th>
+                        <td>/</td>
+                        <td>/</td>
+                        <td>/</td>
+                        <td>/</td>
+                        <td>/</td>
+                        <td>/</td>
+                        <td>/</td>-->
+                      </tr>
+                    </tbody>
+                  </table>
             </div>
         </div>
 
