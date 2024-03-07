@@ -100,7 +100,7 @@ function linePlot(idDiv, data, dates, titleName, trend=null) {
         type: 'value'
       },
       legend:{
-        data: ['Performance score', 'Trend line']
+        data: ['Performance score']
       },
       series: [
       {
@@ -109,15 +109,6 @@ function linePlot(idDiv, data, dates, titleName, trend=null) {
         type: 'line',
         //smooth: true,
         showAllSymbol:true
-      },
-      {
-        name: 'Trend line',
-        data: trend,
-        type:'line',
-        showSymbol:false,
-        lineStyle: {
-          type: 'dashed'
-        }
       }
       ],
       dataZoom: [
