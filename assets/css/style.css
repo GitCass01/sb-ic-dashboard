@@ -14,28 +14,6 @@
     margin-top: 10px;
 }
 
-#patient-list {
-    /* Scrollbar styles */
-    &::-webkit-scrollbar {
-    width: 8px;
-    height: 12px;
-    }
-    
-    &::-webkit-scrollbar-track {
-    background: #f5f5f5;
-    border-radius: 10px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: #ccc;  
-    }
-    
-    &::-webkit-scrollbar-thumb:hover {
-    background: #999;  
-    }
-  }
-
 #domain-list {
     display: flex;
     flex-direction: column; /* Layout verticale di default */
@@ -79,6 +57,48 @@
 .tree-chart, .sankey-chart {
     margin-left: 0;
     margin-right: 0;
+}
+
+#patient-list {
+    /* Scrollbar styles */
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 12px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: #f5f5f5;
+        border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #ccc;  
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+        background: #999;  
+    }
+}
+
+/* Scrollbar styles */
+&::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+&::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 10px;
+}
+
+&::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #ccc;  
+}
+
+&::-webkit-scrollbar-thumb:hover {
+    background: #999;  
 }
 
 /* Media query per schermi di dimensioni medio-piccole (md) */

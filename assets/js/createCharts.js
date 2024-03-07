@@ -1,5 +1,84 @@
+function linePlotPerformanceScore(idDiv, data, dates, titleName, trend=null) {
+  var chart = echarts.init(document.getElementById(idDiv));
+  //myChart.showLoading();
+  //myChart.hideLoading();
+
+  // Specify the configuration items and data for the chart
+  var option = {
+      title: {
+        text: titleName
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      xAxis: {
+        type: 'category',
+        data: dates
+      },
+      yAxis: {
+        name: 'performance score',
+        //nameLocation:'middle',
+        type: 'value',
+        min: 1,
+        max: 6
+      },
+      legend:{
+        data: ['Performance score', 'Trend line']
+      },
+      series: [
+      {
+        name: 'Performance score',
+        data: data,
+        type: 'line',
+        //smooth: true,
+        showAllSymbol:true
+      },
+      {
+        name: 'Trend line',
+        data: trend,
+        type:'line',
+        showSymbol:false,
+        lineStyle: {
+          type: 'dashed'
+        }
+      }
+      ],
+      dataZoom: [
+      {
+        type: 'slider',
+        xAxisIndex: [0],
+        start: 0,
+        end: 100
+      },
+      {
+        type: 'inside',
+        xAxisIndex: [0],
+        start: 0,
+        end: 100
+      },
+      {
+        type: 'slider',
+        yAxisIndex: [0],
+        start: 0,
+        end: 100,
+        zoomOnMouseWheel: false
+      },
+      {
+        type: 'inside',
+        yAxisIndex: [0],
+        start: 0,
+        end: 100,
+        zoomOnMouseWheel: false
+      }
+      ]
+  };
+
+  // Display the chart using the configuration items and data just specified.
+  chart.setOption(option);
+}
+
 function linePlot(idDiv, data, dates, titleName, trend=null) {
-  var icChart = echarts.init(document.getElementById(idDiv));
+  var chart = echarts.init(document.getElementById(idDiv));
   //myChart.showLoading();
   //myChart.hideLoading();
 
@@ -72,7 +151,7 @@ function linePlot(idDiv, data, dates, titleName, trend=null) {
   };
 
   // Display the chart using the configuration items and data just specified.
-  icChart.setOption(option);
+  chart.setOption(option);
 }
 
 function pieChartCoverages(idDiv, coverages) {
@@ -314,4 +393,4 @@ function boxplot(idDiv, dataset, titleName) {
   chart.setOption(option);
 }
 
-export {linePlot, pieChartCoverages, barChart, treeChart, sankeyChart, boxplot};
+export {linePlotPerformanceScore, linePlot, pieChartCoverages, barChart, treeChart, sankeyChart, boxplot};

@@ -1,4 +1,4 @@
-import {linePlot, pieChartCoverages, barChart, treeChart, sankeyChart, boxplot} from './createCharts.js'
+import {linePlotPerformanceScore, linePlot, pieChartCoverages, barChart, treeChart, sankeyChart, boxplot} from './createCharts.js'
 
 
 var patientId = null;
@@ -147,7 +147,7 @@ async function icChartCoverageChart() {
     })
     .then(response => response.json())
     .then(result => {
-        linePlot('ic-chart', result.data, result.dates, 'Intrinsic Capacity', result.trend)
+        linePlotPerformanceScore('ic-chart', result.data, result.dates, 'Intrinsic Capacity', result.trend)
     })
     .catch(err => console.log("err: ", err));
     
@@ -299,7 +299,7 @@ async function generateDomainChart() {
     })
     .then(response => response.json())
     .then(result => {
-        linePlot('domain-chart', result.data, result.dates, domain.id, result.trend)
+        linePlotPerformanceScore('domain-chart', result.data, result.dates, domain.id, result.trend)
     })
     .catch(err => console.log("err: ", err));
 }
