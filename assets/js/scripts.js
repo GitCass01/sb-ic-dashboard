@@ -10,7 +10,6 @@ var variable = null;
 var minCoverageInput = document.getElementById("minCoverage");
 createPatientList(minCoverageInput.value);
 createDomainList();
-createTreeChart();
 
 minCoverageInput.addEventListener("keydown", function (e) {
     if (e.code === "Enter") {  //checks whether the pressed key is "Enter"
@@ -91,6 +90,7 @@ async function selectId(element) {
         generateVariableChart()
     }
 
+    createTreeChart();
     createSankeyChart();
 }
 
@@ -183,7 +183,7 @@ async function selectDomain(element) {
     generateVariableImputationChart()
 }
 
-async function generateVariableList(variableList) {
+async function generateVariableList() {
     const domainValue = {
         domain: domain.id
     }
@@ -200,10 +200,15 @@ async function generateVariableList(variableList) {
         var variableListContainer = document.getElementById('variable-list')
         variableListContainer.innerHTML = '';
         result.value.forEach(variable => {
+            var tmp = variable
+            if (variable.includes('conditions')) {
+                tmp = variable.split('_')[0] + ' conditions'
+            }
+
             const variableItem = document.createElement('div');
             variableItem.classList.add('variableItem');
             variableItem.id = variable;
-            variableItem.textContent = variable;
+            variableItem.textContent = tmp;
             variableItem.onclick = () => selectVariable(variableItem);
             variableListContainer.appendChild(variableItem);
         });

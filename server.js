@@ -70,7 +70,7 @@ app.get('/coverages', async function (req, res) {
 });
 
 app.post('/domainVariables', async function (req, res) {
-    res.send({value: dataLists[req.body.domain.toLowerCase()  + '_list']})
+    res.send({value: utility.getNonNullVariables(patientData)[req.body.domain]})
 })
 
 app.post('/variableChart', async function (req, res) {
@@ -83,13 +83,13 @@ app.post('/variableChart', async function (req, res) {
 
 app.post('/variableImputation', async function (req, res) {
     var response = {}
-    response['variables'] = dataLists[req.body.domain.toLowerCase()+'_list']
-    response['data'] = utility.getVariableImputation(patientData, dataLists[req.body.domain.toLowerCase()  + '_list_imputed'])
+    response['variables'] = utility.getNonNullVariables(patientData)[req.body.domain]
+    response['data'] = utility.getVariableImputation(patientData, req.body.domain)
     res.send(response)
 })
 
 app.get('/treeChart', async function (req, res) {
-    res.send({data: utility.generateTree()})
+    res.send({data: utility.generateTree(patientData)})
 })
 
 app.get('/sankeyChart', async function (req, res) {
@@ -102,7 +102,7 @@ app.get('/sankeyChart', async function (req, res) {
 })
 
 app.post('/variableBoxplot', async function (req, res) {
-    res.send({data: utility.getVariableData(patientData, req.body.variable)})
+    res.send({data: utility.getData(patientData, req.body.variable)})
 })
 
 app.listen(port);
