@@ -247,7 +247,11 @@ async function generateVariableChart() {
     })
     .then(response => response.json())
     .then(result => {
-        linePlot('variable-chart', result.data, result.dates, variable.id)
+        if (variable.id.includes('conditions') | variable.id.includes('Score')) {
+            linePlot('variable-chart', result.data, result.dates, variable.id, null, 'none')
+        } else {
+            linePlot('variable-chart', result.data, result.dates, variable.id)
+        }
     })
     .catch(err => console.log("err: ", err));
 }

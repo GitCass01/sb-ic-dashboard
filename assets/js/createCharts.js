@@ -77,7 +77,7 @@ function linePlotPerformanceScore(idDiv, data, dates, titleName, trend=null) {
   chart.setOption(option);
 }
 
-function linePlot(idDiv, data, dates, titleName, trend=null) {
+function linePlot(idDiv, data, dates, titleName, trend=null, symbol='emptyCircle') {
   var chart = echarts.init(document.getElementById(idDiv));
   //myChart.showLoading();
   //myChart.hideLoading();
@@ -95,20 +95,21 @@ function linePlot(idDiv, data, dates, titleName, trend=null) {
         data: dates
       },
       yAxis: {
-        name: 'performance score',
+        name: 'Values',
         //nameLocation:'middle',
         type: 'value'
       },
       legend:{
-        data: ['Performance score']
+        data: ['Values']
       },
       series: [
       {
-        name: 'Performance score',
+        name: 'Values',
         data: data,
         type: 'line',
         //smooth: true,
-        showAllSymbol:true
+        showAllSymbol:true,
+        symbol: symbol
       }
       ],
       dataZoom: [
