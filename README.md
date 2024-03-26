@@ -13,6 +13,6 @@ Davide Carniselli -- 2022/2023
 
 # Acknowledgements
 - Prof. Paolo Ceravolo
-- Dr Samira Maghool
+- Dr. Samira Maghool
 - [Smart Bear](https://www.smart-bear.eu/)
 - [University of Milan Statale](https://www.unimi.it/it)
