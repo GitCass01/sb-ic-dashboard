@@ -1,5 +1,5 @@
 # Intrinsic Capacity dashboard for Smart Bear project
-This dashboard is the final part of my thesis project, useful for visualizing data regarding Intrinsic Capacity using data from the Smart Bear project, using [Node.js](https://nodejs.org/en), [Bootstrap](https://getbootstrap.com/) and [Apache ECharts](https://echarts.apache.org/en/index.html). The data was processed using [Apache Spark](https://spark.apache.org/) and [PySpark](https://spark.apache.org/docs/latest/api/python/index.html).
+This dashboard is the final part of my thesis project (**Development of an Intrinsic Capacity Index for the Smart Bear Health Care Platform**), useful for visualizing data regarding Intrinsic Capacity using data from the Smart Bear project, using [Node.js](https://nodejs.org/en), [Bootstrap](https://getbootstrap.com/) and [Apache ECharts](https://echarts.apache.org/en/index.html). The data was processed using [Apache Spark](https://spark.apache.org/) and [PySpark](https://spark.apache.org/docs/latest/api/python/index.html).
 
 Davide Carniselli -- 2022/2023
 
